@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>Working Title: Seattle Mobile Food Vendor Permit Preflight</title>
+    <meta name="description" content="Static civic-AI demo for Seattle mobile food vending permit preflight. Non-authoritative, source-grounded, and designed for planner correction.">
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17201c;
+        --muted: #53615b;
+        --paper: #fbfaf6;
+        --panel: #ffffff;
+        --line: #d4d9d2;
+        --charcoal: #111b17;
+        --red: #963026;
+        --red-bg: #fff0ed;
+        --green: #17613f;
+        --green-bg: #e9f7ee;
+        --blue: #214f82;
+        --blue-bg: #eaf2fb;
+        --amber: #80570f;
+        --amber-bg: #fff5dc;
+        --violet: #5b4378;
+        --violet-bg: #f2eef8;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.48;
+      }
+
+      a { color: var(--blue); text-underline-offset: 3px; }
+      p, ul, ol { margin-top: 0; }
+      code { font-size: 0.95em; }
+
+      .wrap {
+        width: min(1180px, calc(100vw - 24px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        min-height: 96svh;
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        grid-template-areas:
+          "top top"
+          "title title"
+          "scenario route"
+          "context route"
+          "not route";
+        align-content: center;
+        gap: 12px;
+        padding: 14px 0 18px;
+      }
+
+      .topline,
+      .phase-kicker,
+      .tag,
+      .badge,
+      .source-tag {
+        font-size: 0.76rem;
+        font-weight: 850;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .topline {
+        grid-area: top;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px;
+        color: var(--muted);
+      }
+
+      .title-block { grid-area: title; }
+
+      h1, h2, h3 {
+        margin: 0;
+        line-height: 1.06;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        max-width: 980px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.25rem, 7vw, 5.4rem);
+        font-weight: 520;
+      }
+
+      h2 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.75rem, 4.6vw, 3.4rem);
+        font-weight: 520;
+      }
+
+      h3 { font-size: 1.06rem; }
+
+      .dek {
+        max-width: 900px;
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2.2vw, 1.3rem);
+        font-weight: 650;
+      }
+
+      .scenario {
+        grid-area: scenario;
+        display: grid;
+        gap: 8px;
+        border: 3px solid var(--charcoal);
+        background: var(--charcoal);
+        color: white;
+        padding: 14px;
+      }
+
+      .scenario blockquote {
+        margin: 0;
+        font-size: clamp(1.15rem, 2.5vw, 2rem);
+        line-height: 1.17;
+        font-weight: 850;
+      }
+
+      .context-now {
+        grid-area: context;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .context-now div,
+      .not div,
+      .card,
+      .model-card,
+      .question-card,
+      .claim-card,
+      .source-card,
+      .exit-card,
+      .contact,
+      .eval,
+      .handoff,
+      .pathway,
+      .provenance {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .context-now div {
+        border-color: #e0bd79;
+        background: var(--amber-bg);
+        padding: 10px;
+        font-size: 0.9rem;
+        font-weight: 780;
+      }
+
+      .not {
+        grid-area: not;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .not div {
+        padding: 10px;
+        font-size: 0.92rem;
+        font-weight: 760;
+      }
+
+      .above-fold-routing {
+        grid-area: route;
+        display: grid;
+        align-content: start;
+        gap: 8px;
+      }
+
+      .quick-route {
+        display: grid;
+        gap: 8px;
+      }
+
+      .quick-route div {
+        border: 2px solid var(--green);
+        border-radius: 8px;
+        background: var(--green-bg);
+        padding: 10px;
+        font-weight: 850;
+      }
+
+      main { padding-bottom: 46px; }
+
+      section {
+        margin-top: 30px;
+        border-top: 3px solid var(--ink);
+        padding-top: 20px;
+      }
+
+      .phase-head {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .phase-kicker {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px;
+        color: var(--muted);
+      }
+
+      .intro {
+        max-width: 86ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+        font-weight: 630;
+      }
+
+      .grid-2, .grid-3, .grid-4, .models, .routing, .findings, .sources, .exit-grid, .principles, .contact-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3, .models, .findings, .sources, .exit-grid, .principles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-4, .contact-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .routing { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .card, .model-card, .question-card, .claim-card, .source-card, .exit-card, .contact, .handoff, .provenance {
+        padding: 14px;
+      }
+
+      .card p:last-child,
+      .model-card p:last-child,
+      .question-card p:last-child,
+      .claim-card p:last-child,
+      .source-card p:last-child,
+      .exit-card p:last-child,
+      .handoff p:last-child,
+      .provenance p:last-child { margin-bottom: 0; }
+
+      .model-card {
+        border-width: 2px;
+        border-color: var(--red);
+        background: var(--red-bg);
+      }
+
+      .question-card {
+        border: 3px solid var(--green);
+        background: var(--green-bg);
+      }
+
+      .question-card:first-child { grid-column: 1 / -1; }
+
+      .question-card h3 {
+        font-size: clamp(1.35rem, 3.6vw, 2.2rem);
+        margin-bottom: 8px;
+      }
+
+      .why {
+        border-left: 6px solid var(--green);
+        background: white;
+        padding: 10px;
+      }
+
+      .tag, .badge, .source-tag {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        border-radius: 999px;
+        padding: 4px 8px;
+      }
+
+      .tag.bad { background: var(--red); color: white; }
+      .tag.good { background: var(--green); color: white; }
+      .tag.note { background: var(--blue-bg); color: var(--blue); }
+      .badge.assert, .source-tag { background: var(--blue-bg); color: var(--blue); }
+      .badge.low { background: var(--green-bg); color: var(--green); }
+      .badge.cond { background: var(--amber-bg); color: var(--amber); }
+      .badge.limit { background: var(--red-bg); color: var(--red); }
+      .badge.draft { background: var(--amber-bg); color: var(--amber); border: 1px solid #e0bd79; }
+
+      .failure { color: var(--red); font-weight: 850; }
+      .small { color: var(--muted); font-size: 0.92rem; }
+
+      .recognition {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 10px;
+        border: 3px solid var(--amber);
+        border-radius: 8px;
+        background: var(--amber-bg);
+        padding: 14px;
+      }
+
+      .recognition h3 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.4rem, 3.8vw, 2.4rem);
+        font-weight: 520;
+      }
+
+      .claim-card {
+        border-left-width: 7px;
+      }
+
+      .claim-card.assertion { border-left-color: var(--green); }
+      .claim-card.conditional { border-left-color: var(--amber); }
+      .claim-card.limitation { border-left-color: var(--red); background: var(--red-bg); }
+      .claim-card.recommendation { border-left-color: var(--blue); background: var(--blue-bg); }
+
+      .claim-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      .excerpt {
+        margin-top: 8px;
+        border-left: 4px solid var(--line);
+        padding-left: 10px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .evidence-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .evidence-strip div {
+        border: 2px solid var(--amber);
+        border-radius: 8px;
+        background: var(--amber-bg);
+        padding: 10px;
+        font-weight: 780;
+      }
+
+      .pathway {
+        padding: 14px;
+        border: 3px solid var(--blue);
+      }
+
+      .pathway ol {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin: 12px 0 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: path;
+      }
+
+      .pathway li {
+        counter-increment: path;
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 8px;
+        align-items: start;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 10px;
+      }
+
+      .pathway li::before {
+        content: counter(path);
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background: var(--blue-bg);
+        color: var(--blue);
+        font-weight: 950;
+      }
+
+      .eval {
+        margin-top: 12px;
+        padding: 12px;
+        background: var(--charcoal);
+        color: white;
+      }
+
+      .eval h3 {
+        color: #c9efd5;
+        margin-bottom: 8px;
+      }
+
+      .rubric {
+        display: grid;
+        grid-template-columns: minmax(220px, 1.3fr) 90px 90px 96px minmax(180px, 0.9fr);
+        gap: 6px;
+        font-size: 0.9rem;
+      }
+
+      .rubric > div,
+      .rubric label {
+        min-height: 38px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 6px;
+        padding: 8px;
+      }
+
+      .rubric .head {
+        color: #c9efd5;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 0.74rem;
+      }
+
+      input { accent-color: var(--green); }
+
+      .failure-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border: 1px solid var(--line);
+      }
+
+      .failure-table th,
+      .failure-table td {
+        border: 1px solid var(--line);
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 0.92rem;
+      }
+
+      .failure-table th {
+        background: var(--charcoal);
+        color: white;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+      }
+
+      .handoff {
+        border-color: #9fceaf;
+        background: var(--green-bg);
+      }
+
+      .copy-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .copy-button {
+        border: 1px solid var(--green);
+        border-radius: 999px;
+        background: white;
+        color: var(--green);
+        padding: 6px 10px;
+        font-weight: 850;
+        cursor: pointer;
+      }
+
+      .copy-text {
+        border: 1px dashed var(--green);
+        border-radius: 7px;
+        background: white;
+        padding: 12px;
+        user-select: text;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .flow div {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: white;
+        padding: 10px;
+        font-weight: 780;
+      }
+
+      .contact strong { display: block; }
+      .provenance { background: #eef1e8; }
+
+      footer {
+        margin-top: 30px;
+        padding: 18px 0 28px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          min-height: auto;
+          grid-template-columns: 1fr;
+          grid-template-areas: "top" "title" "scenario" "context" "route" "not";
+          align-content: start;
+        }
+
+        .context-now,
+        .not,
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .models,
+        .routing,
+        .findings,
+        .sources,
+        .exit-grid,
+        .principles,
+        .contact-grid,
+        .evidence-strip,
+        .recognition,
+        .pathway ol,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .question-card:first-child { grid-column: auto; }
+        .rubric { grid-template-columns: 1fr; }
+        .rubric .head:not(:first-child) { display: none; }
+        .failure-table { display: block; overflow-x: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero wrap">
+      <div class="topline">
+        <span>Permit Preflight</span>
+        <span>DRAFT — not reviewed by any agency or applicant</span>
+      </div>
+
+      <div class="title-block">
+        <h1>Seattle Mobile Food Vendor Permit Preflight</h1>
+        <p class="dek">We asked five AI models how to start a taco truck in Seattle. They all gave confident answers. They all missed the same thing: where you park determines which office you contact first, and getting that wrong can cost months. This page shows the problem, shows what curiosity-driven questioning finds instead, and prepares a better handoff to the real human offices.</p>
+        <p class="small" style="margin-top:8px"><strong>Do not use this to decide whether you can operate.</strong> This page has not been reviewed or approved by Seattle, King County, or any permitting office. It is a draft for review by city planners and the food truck community.</p>
+      </div>
+
+      <div class="scenario" aria-label="Applicant scenario">
+        <div class="phase-kicker"><span>Part 1</span><span>The test prompt</span></div>
+        <p>We gave five frontier AI models the same plain question—no system prompt, no extra context—and compared what they said to what the city's own sources actually require. The question:</p>
+        <blockquote>"I want to run a taco truck in Seattle near breweries and sometimes at neighborhood events. What do I need before I contact the city?"</blockquote>
+        <p>This is a realistic first ask. It sounds simple, but it hides a routing problem: <em>where</em> the truck parks determines <em>which office</em> comes first, and every model we tested missed that fork.</p>
+      </div>
+
+      <div class="context-now" aria-label="2026 context">
+        <div>Fee waiver reportedly expired Jan. 1, 2026 (Axios Seattle); new applicants may face the full cost structure.</div>
+        <div>FIFA World Cup 2026 matches are scheduled at Lumen Field, adding anticipated event-adjacent vending pressure.</div>
+        <div>April 2026 enforcement posture reportedly escalated (FOX 13 Seattle); details not confirmed with city offices.</div>
+        <div>Restaurant owners are watching; permit confusion becomes a compliance and competition issue (The Stranger, Eater Seattle).</div>
+      </div>
+
+      <div class="not" aria-label="Demo boundaries">
+        <div>Not legal advice, permit approval, eligibility review, city endorsement, or a production service.</div>
+        <div>No live AI call is made on this page. The model output excerpts are captured artifacts from OpenRouter on 2026-05-02.</div>
+        <div>This is a review draft. No agency staff, elected official, or food vendor has approved this content. Corrections welcome at <a href="mailto:daniel@hypandra.com">daniel@hypandra.com</a>.</div>
+      </div>
+
+      <aside class="above-fold-routing" aria-label="Five second routing device">
+        <div class="phase-kicker"><span>Five-second routing device</span><span>What default AI missed</span></div>
+        <div class="quick-route">
+          <div>Public curb or sidewalk? Start with SDOT (Seattle Dept. of Transportation) Street Use.</div>
+          <div>Brewery private lot? Check whether SDCI (Seattle Dept. of Construction &amp; Inspections) no-permit conditions apply: non-residential zone, owner permission, no overnight stay, parking area, 50+ feet from residential zoning.</div>
+          <div>Park or event footprint? Parks, organizer, or Special Events can change the route.</div>
+          <div>Propane, open flame, or occupied truck? Seattle Fire (SFD) and L&amp;I (WA Labor &amp; Industries) dependencies may come first.</div>
+          <div>Commissary and restroom missing? King County plan review is not ready yet.</div>
+        </div>
+      </aside>
+    </header>
+
+    <main class="wrap">
+      <section aria-labelledby="phase1-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Part 1 / Intake</span><span>Recognition before methodology</span></div>
+          <h2 id="phase1-title">The prompt hides the jurisdictional fork.</h2>
+          <p class="intro">"Near breweries" sounds simple, but it could mean a brewery parking lot, the adjacent public curb, a city park, or a neighborhood event footprint. A useful preflight surface should slow down here, not generate a checklist.</p>
+        </div>
+
+        <div class="recognition" aria-label="KUOW recognition moment">
+          <h3>The moment of recognition: a vendor can have one permit and still be missing the permit that matters at that site.</h3>
+          <div>
+            <p>Seattle public radio station KUOW's July 29, 2024 story, "A Seattle hot dog with everything - but not all the permits," is the best narrative evidence: a vendor had county health permission and handwashing equipment but lacked a Parks permit.</p>
+            <p class="small">That is the civic-AI failure this page is designed to surface: not "unpermitted versus permitted," but wrong-route confidence.</p>
+          </div>
+        </div>
+
+        <div class="eval" aria-labelledby="eval-phase1">
+          <h3 id="eval-phase1">For reviewers: is this section accurate?</h3>
+          <p class="small">This page is a draft. These review prompts are for city planners, food truck operators, and community members helping us get the facts right before this is shown to any applicant. The radio buttons don't submit anywhere—they're here to structure your feedback.</p>
+          <div class="rubric" role="table" aria-label="Part1 evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>Does this scenario feel recognizable as an applicant's first ask?</div><label><input type="radio" name="p1a"> Yes</label><label><input type="radio" name="p1a"> Partly</label><label><input type="radio" name="p1a"> No</label><div>What fact would you need before routing?</div>
+            <div>Is the non-authority boundary visible enough above the fold?</div><label><input type="radio" name="p1b"> Yes</label><label><input type="radio" name="p1b"> Partly</label><label><input type="radio" name="p1b"> No</label><div>What wording would reduce over-reliance?</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="phase2-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Part 2 / What default AI said</span><span>Real outputs, not invented examples</span></div>
+          <h2 id="phase2-title">The models answered before routing.</h2>
+          <p class="intro">These are real model outputs, not invented examples. Plain user prompt, no system message, captured through OpenRouter on 2026-05-02. <a href="#appendix-outputs">Full capture notes in appendix.</a></p>
+        </div>
+
+        <div class="models">
+          <article class="model-card">
+            <span class="tag bad">Default AI output</span>
+            <h3>GPT-4.1 <span class="small">(openai/gpt-4.1)</span></h3>
+            <p>Produced an 800-token business plan template with a licensing checklist, commissary mention, and links to a seattle.gov vending permits page.</p>
+            <p class="failure">Routing gap: treats permits as a linear checklist, does not ask about location type, and does not distinguish SDOT from SDCI.</p>
+          </article>
+
+          <article class="model-card">
+            <span class="tag bad">Default AI output</span>
+            <h3>Claude Opus 4 <span class="small">(anthropic/claude-opus-4)</span></h3>
+            <p>Concise and organized. Ends with: <q>Having these items ready will streamline your permit applications with King County Health Department and Seattle's Department of Finance and Administrative Services.</q></p>
+            <p class="failure">Routing gap: routes final permits to "Department of Finance and Administrative Services"—not the correct agency for mobile food vending location permits.</p>
+          </article>
+
+          <article class="model-card">
+            <span class="tag bad">Default AI output</span>
+            <h3>Gemini 2.5 Pro <span class="small">(google/gemini-2.5-pro)</span></h3>
+            <p>Output truncated due to streaming. Began with business plan advice before reaching permit routing.</p>
+            <p class="failure">Routing gap: already in startup-coaching mode before resolving the routing problem.</p>
+          </article>
+        </div>
+
+        <div class="eval" aria-labelledby="eval-phase2">
+          <h3 id="eval-phase2">Reviewer check</h3>
+          <div class="rubric" role="table" aria-label="Part2 evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>Would any default answer reduce staff burden?</div><label><input type="radio" name="p2a"> Yes</label><label><input type="radio" name="p2a"> Partly</label><label><input type="radio" name="p2a"> No</label><div>What follow-up would staff still need?</div>
+            <div>Where was the model too confident?</div><label><input type="radio" name="p2b"> Found</label><label><input type="radio" name="p2b"> Partly</label><label><input type="radio" name="p2b"> No</label><div>Quote or paraphrase the risky claim.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="phase3-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Part 3 / Routing discoveries</span><span>The curious move</span></div>
+          <h2 id="phase3-title">Six discoveries before advice.</h2>
+          <p class="intro">The first useful output is not a paragraph. It is a set of hidden-structure discoveries that make the applicant say, "I did not know that mattered."</p>
+        </div>
+
+        <div class="routing">
+          <article class="question-card">
+            <h3>1. The phrase "near breweries" hides the fork that changes everything.</h3>
+            <p>Where exactly will you park? A public curb, sidewalk, plaza, private parking lot, city park, special event venue, or a mix?</p>
+            <div class="why">Why this matters: public right-of-way, private property, parks, and events route through different offices. <a class="source-tag" href="https://www.seattle.gov/economic-development/start-a-business/food-business-handbook/mobile-food-vending">Seattle OED (Office of Economic Development)</a> <a class="source-tag" href="https://www.seattle.gov/transportation/permits-and-services/permits/vending-permits">SDOT</a></div>
+          </article>
+
+          <article class="question-card">
+            <h3>2. The brewery lot and the curb beside it may require different city offices.</h3>
+            <p>Do you have owner permission? Is the brewery's parking area private land, adjacent city right-of-way, or part of an event footprint? On private property, SDCI says no construction or use permit is needed only if: non-residential zone, owner permission, no overnight stay, parking-area location, and at least 50 feet from residentially zoned property. If any condition is not met, ask SDCI about temporary or permanent use permitting.</p>
+            <div class="why">Why this matters: SDCI private-property conditions, SDOT curb use, and event organizer requirements are not interchangeable. Many compliant private-property cases need no SDCI permit at all — but you must confirm all five conditions first. <a class="source-tag" href="https://www.seattle.gov/sdci/permits/common-projects/street-food-carts-or-trucks">SDCI</a></div>
+          </article>
+
+          <article class="question-card">
+            <h3>3. Fire is not a footnote; the cooking method can create a separate route.</h3>
+            <p>Propane, LPG, charcoal, wood, solid fuel, open flame, electric, or deep frying?</p>
+            <div class="why">Why this matters: Seattle Fire is the fire/fuel regulator, not the food regulator or the land-use regulator. <a class="source-tag" href="https://www.seattle.gov/fire/business-services/permits">SFD</a></div>
+          </article>
+
+          <article class="question-card">
+            <h3>4. "Truck" can hide a state approval dependency.</h3>
+            <p>Occupied truck, occupied trailer, unenclosed cart, or kiosk?</p>
+            <div class="why">Why this matters: occupied trucks and trailers may need Washington State L&amp;I approval before King County final health approval. <a class="source-tag" href="https://www.lni.wa.gov/licensing-permits/manufactured-modular-mobile-structures/food-trucks-trailers/">WA L&amp;I</a></div>
+          </article>
+
+          <article class="question-card">
+            <h3>5. The commissary is not a later checklist item; it can block the first filing.</h3>
+            <p>A commissary is a permitted food establishment where a food truck stores, preps, cleans, and disposes of wastewater between shifts—King County requires proof of one (or an exemption) before plan review can proceed. Do you have an approved commissary agreement? A restroom agreement within 500 feet for regular operation?</p>
+            <div class="why">Why this matters: King County mobile food plan review requires commissary and restroom materials early. <a class="source-tag" href="https://kingcounty.gov/en/-/media/king-county/depts/dph/documents/certificates-permits-licenses/food-worker-business-permits/plan-guide-mobile-food-service.pdf">King County guide</a></div>
+          </article>
+
+          <article class="question-card">
+            <h3>6. "Near breweries" hides a liquor-premises question.</h3>
+            <p>Is your truck inside or adjacent to a liquor-licensed premises? Is alcohol being served or catered at the location? Who controls the licensed boundary?</p>
+            <div class="why">Why this matters: brewery-hosted operations can create confusion about who has permission to do what on the premises. Washington State Liquor and Cannabis Board (WSLCB) has restrictions on mobile food operations near or within liquor-licensed boundaries, even if the truck is not selling alcohol.</div>
+          </article>
+        </div>
+
+        <div class="evidence-strip" aria-label="Community evidence">
+          <div>Commissary pricing ranges from $200/month (minimal cart use, limited hours) to $2,548/month (full commercial kitchen). For a working taco truck doing regular shifts, expect $750-$2,000+/month once parking, water, wastewater disposal, and usable access hours are included.</div>
+          <div>KUOW's July 2024 hot dog story: county health permit and handwashing equipment, but no Parks permit.</div>
+          <div>Reddit community voices describe wrong-office loops, "months and months," "$1500 a month," and guidance too messy to finish in a comment box.</div>
+        </div>
+
+        <div class="eval" aria-labelledby="eval-phase3">
+          <h3 id="eval-phase3">Reviewer check</h3>
+          <div class="rubric" role="table" aria-label="Part3 evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>What question should the system have asked first?</div><label><input type="radio" name="p3a"> Location</label><label><input type="radio" name="p3a"> Partly</label><label><input type="radio" name="p3a"> No</label><div>Write the staff version.</div>
+            <div>What question is missing entirely?</div><label><input type="radio" name="p3b"> None</label><label><input type="radio" name="p3b"> Maybe</label><label><input type="radio" name="p3b"> Missing</label><div>Examples: waste, alcohol, utilities, ADA, Parks concessions.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="grounding-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Part 4A / Source grounding</span><span>Official excerpts per claim</span></div>
+          <h2 id="grounding-title">Claims become auditable only when the source passage is visible.</h2>
+          <p class="intro">Each claim below is paired with its source URL and a supporting excerpt. The excerpts are short because they are anchors for correction, not a replacement for staff review.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="source-card">
+            <span class="source-tag">Layer 1 official</span>
+            <h3>Public right-of-way routes to SDOT.</h3>
+            <p><a href="https://www.seattle.gov/economic-development/start-a-business/food-business-handbook/mobile-food-vending">Seattle OED mobile food vending</a> and <a href="https://www.seattle.gov/transportation/permits-and-services/permits/vending-permits">SDOT vending permits</a></p>
+            <p class="excerpt">Excerpt: "Street Use Vending permits are required for any vending in the public right of way." Last verified: 2026-05-02.</p>
+          </article>
+
+          <article class="source-card">
+            <span class="source-tag">Layer 1 official</span>
+            <h3>Private property routes through SDCI conditions.</h3>
+            <p><a href="https://www.seattle.gov/sdci/permits/common-projects/street-food-carts-or-trucks">SDCI Street Food Carts or Trucks</a></p>
+            <p class="excerpt">Excerpt: "You can sell food from a street food truck or a trailer on private property under certain conditions." Last verified: 2026-05-02.</p>
+          </article>
+
+          <article class="source-card">
+            <span class="source-tag">Layer 1 official</span>
+            <h3>Health plan review is Public Health - Seattle &amp; King County.</h3>
+            <p><a href="https://kingcounty.gov/en/dept/dph/certificates-permits-licenses/food-business-permits">King County food business permits</a></p>
+            <p class="excerpt">Excerpt: "Mobile food businesses include food carts, trailers, trucks, and food kiosks" and plan review materials precede operation. Last verified: 2026-05-02.</p>
+          </article>
+
+          <article class="source-card">
+            <span class="source-tag">Layer 1 official</span>
+            <h3>Propane and open flame route to fire review.</h3>
+            <p><a href="https://www.seattle.gov/special-events/permits/food-service">Seattle Special Events food service</a> and <a href="https://www.seattle.gov/fire/business-services/permits">Seattle Fire permits</a></p>
+            <p class="excerpt">Excerpt: "A permit from Seattle Fire Department is required" for LPG/propane or open flame cooking. Last verified: 2026-05-02.</p>
+          </article>
+        </div>
+
+        <div class="eval" aria-labelledby="eval-grounding">
+          <h3 id="eval-grounding">Reviewer check</h3>
+          <div class="rubric" role="table" aria-label="Source grounding evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>Which source would staff trust first?</div><label><input type="radio" name="pg1"> Clear</label><label><input type="radio" name="pg1"> Partly</label><label><input type="radio" name="pg1"> Missing</label><div>Promote or demote a source.</div>
+            <div>Is any excerpt too thin to support the claim?</div><label><input type="radio" name="pg2"> Found</label><label><input type="radio" name="pg2"> Partly</label><label><input type="radio" name="pg2"> No</label><div>Name the claim needing better evidence.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="routing-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Part 4B / Tentative routing</span><span>Soft Ground markers</span></div>
+          <h2 id="routing-title">A tentative route, with uncertainty visible.</h2>
+          <p class="intro">The page distinguishes assertions, conditionals, limitations, and recommendations. That makes reliance contestable instead of hidden inside confident prose.</p>
+        </div>
+
+        <div class="findings">
+          <article class="claim-card limitation">
+            <div class="claim-meta"><span class="badge limit">limitation</span><span class="badge limit">high uncertainty</span></div>
+            <h3>I cannot determine the first city office from "near breweries."</h3>
+            <p>The phrase could mean private brewery property, adjacent public curb space, city park activity, or an event footprint. That site fact decides the route.</p>
+          </article>
+
+          <article class="claim-card conditional">
+            <div class="claim-meta"><span class="badge cond">conditional</span><span class="badge cond">medium uncertainty</span></div>
+            <h3>If the brewery site is private property, start with owner permission and SDCI conditions.</h3>
+            <p>SDCI says private-property vending may avoid a construction or use permit only under conditions including non-residential zone, owner permission, no overnight stay, parking-area location, and distance from residential zoning.</p>
+          </article>
+
+          <article class="claim-card assertion">
+            <div class="claim-meta"><span class="badge low">assertion</span><span class="badge low">low uncertainty</span></div>
+            <h3>If the spot is public curb, sidewalk, or plaza, SDOT is the Street Use route.</h3>
+            <p>OED and SDOT sources both route public right-of-way vending to SDOT Street Use vending permits.</p>
+          </article>
+
+          <article class="claim-card assertion">
+            <div class="claim-meta"><span class="badge low">assertion</span><span class="badge low">low uncertainty</span></div>
+            <h3>Food safety routes through Public Health - Seattle &amp; King County.</h3>
+            <p>The mobile food unit guide names plan review, commissary agreement, restroom agreement, menu, site information, operating permit, and inspection materials.</p>
+          </article>
+
+          <article class="claim-card conditional">
+            <div class="claim-meta"><span class="badge cond">conditional</span><span class="badge cond">medium uncertainty</span></div>
+            <h3>If the truck uses propane, charcoal, solid fuel, open flame, or oil frying equipment, include Seattle Fire.</h3>
+            <p>If the unit is fully electric, the fire route may be different and should be confirmed before telling the applicant SFD applies.</p>
+          </article>
+
+          <article class="claim-card recommendation">
+            <div class="claim-meta"><span class="badge assert">recommendation</span><span class="badge assert">human handoff</span></div>
+            <h3>Stop when site type, event footprint, fuel, unit type, or health readiness is unknown.</h3>
+            <p>The system's job is to prepare a better question for the right office, not to decide permit sufficiency.</p>
+          </article>
+        </div>
+
+        <div class="pathway" style="margin-top: 12px">
+          <h3>Preflight pathway sketch <span class="badge draft">draft - known incomplete</span></h3>
+          <ol>
+            <li><strong>State-level first:</strong> WA State business license (UBI number) and sales tax permit (WA Dept. of Revenue). These often come before city filings.</li>
+            <li><strong>Sort each location:</strong> public right-of-way, private property, park, event, or mixed site.</li>
+            <li><strong>Match location office:</strong> SDOT, SDCI no-permit conditions, Parks, Special Events, event organizer, or another office.</li>
+            <li><strong>Confirm health readiness:</strong> King County plan review, commissary, restroom, menu, inspection, or exemption.</li>
+            <li><strong>Check unit sequence:</strong> L&amp;I for occupied truck/trailer before final King County approval when applicable.</li>
+            <li><strong>Check fire/fuel route:</strong> propane, LPG, charcoal, solid fuel, open flame, oil frying, or electric.</li>
+            <li><strong>Check liquor-premises context:</strong> if operating at or near a brewery or liquor-licensed location, confirm WSLCB requirements.</li>
+            <li><strong>Confirm business/event admin:</strong> Seattle business license, food worker cards, insurance, event organizer requirements, and time-limited event constraints.</li>
+            <li><strong>Stop for human review:</strong> exact address, dates, hours, unit type, fuel, menu, owner/event contact, and current permit status.</li>
+          </ol>
+        </div>
+
+        <div class="eval" aria-labelledby="eval-phase4">
+          <h3 id="eval-phase4">Reviewer check</h3>
+          <div class="rubric" role="table" aria-label="Part4 evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>Did this route to the right agency?</div><label><input type="radio" name="p4a"> Yes</label><label><input type="radio" name="p4a"> Partly</label><label><input type="radio" name="p4a"> No</label><div>Name the wrong or missing agency.</div>
+            <div>Where was the system too confident?</div><label><input type="radio" name="p4b"> Found</label><label><input type="radio" name="p4b"> Partly</label><label><input type="radio" name="p4b"> No</label><div>Quote the sentence to downgrade.</div>
+            <div>What entire category is absent from this pathway?</div><label><input type="radio" name="p4c"> None</label><label><input type="radio" name="p4c"> Maybe</label><label><input type="radio" name="p4c"> Missing</label><div>Name the category before anyone relies.</div>
+            <div>Where should the system stop and hand off to staff?</div><label><input type="radio" name="p4d"> Clear</label><label><input type="radio" name="p4d"> Partly</label><label><input type="radio" name="p4d"> Missing</label><div>Write the stop condition.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="taxonomy-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>How AI fails on permits</span><span>Patterns worth testing</span></div>
+          <h2 id="taxonomy-title">The failures become test cases.</h2>
+          <p class="intro">These are the patterns of failure we found across all five models. Each one could be used to test whether a future AI system handles permits better. Inspired by <a href="https://www.daveguarino.com/">Dave Guarino</a>'s work evaluating AI on public benefits questions.</p>
+        </div>
+
+        <table class="failure-table">
+          <thead>
+            <tr>
+              <th>Failure Mode</th>
+              <th>Test Input</th>
+              <th>Expected Bad Output</th>
+              <th>What Makes It Bad</th>
+              <th>Detection Signal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Overconfidence</td>
+              <td>"What do I need?"</td>
+              <td>"Get these permits and you're ready."</td>
+              <td>Skips routing questions and implies a completable sequence.</td>
+              <td>No conditional language; no "it depends"; no stop point.</td>
+            </tr>
+            <tr>
+              <td>Wrong jurisdiction</td>
+              <td>"I need a food truck permit."</td>
+              <td>Routes to one city office.</td>
+              <td>Collapses county health, city location, fire, and state L&amp;I responsibilities.</td>
+              <td>Single agency named for a multi-agency stack.</td>
+            </tr>
+            <tr>
+              <td>Missing agency</td>
+              <td>"I use propane near a brewery."</td>
+              <td>Lists health permit and business license only.</td>
+              <td>Omits the fire/fuel trigger.</td>
+              <td>No mention of Seattle Fire, LPG, propane, open flame, solid fuel, or inspection.</td>
+            </tr>
+            <tr>
+              <td>Wrong sequence</td>
+              <td>"What do I file first?"</td>
+              <td>"Start with your business license."</td>
+              <td>Business licensing does not determine the routing fork.</td>
+              <td>Location type, health readiness, unit type, and event footprint are not asked first.</td>
+            </tr>
+            <tr>
+              <td>Staleness</td>
+              <td>"What are the fees?"</td>
+              <td>Cites a 2023 fee-waiver-era schedule as current.</td>
+              <td>Fee waiver expired Jan. 1, 2026 and fees changed; FIFA and enforcement context shifted.</td>
+              <td>No last-verified date and no caveat that fees and enforcement posture change.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="eval" aria-labelledby="eval-taxonomy">
+          <h3 id="eval-taxonomy">Reviewer check</h3>
+          <div class="rubric" role="table" aria-label="Failure taxonomy evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>Would these test cases catch the failures staff actually see?</div><label><input type="radio" name="pt1"> Yes</label><label><input type="radio" name="pt1"> Partly</label><label><input type="radio" name="pt1"> No</label><div>Name the missing case.</div>
+            <div>Which detection signal is too weak?</div><label><input type="radio" name="pt2"> None</label><label><input type="radio" name="pt2"> Maybe</label><label><input type="radio" name="pt2"> Weak</label><div>Write the stronger signal.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="phase5-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Part 5 / Correction and exit</span><span>Prepared handoff</span></div>
+          <h2 id="phase5-title">The useful output is a better handoff.</h2>
+          <p class="intro">The goal is not an AI answer. It is a better prepared question for the human office. Below is a template an applicant could adapt before calling or visiting.</p>
+          <p class="small"><strong>Do not use this to decide whether you can operate.</strong> This handoff question has not been reviewed by any city office.</p>
+        </div>
+
+        <div class="exit-grid">
+          <article class="exit-card">
+            <h3>For the planner</h3>
+            <p>What would you change so this stops earlier and sends fewer applicants to the wrong office?</p>
+          </article>
+          <article class="exit-card">
+            <h3>For the workflow</h3>
+            <p>Which office, source, or required fact is missing from the draft pathway?</p>
+          </article>
+          <article class="exit-card">
+            <h3>For the next room</h3>
+            <p>Who else should correct this before it is shown to applicants: SDOT, SDCI, Public Health, Fire, Parks, Special Events, OED, event organizers, WSFTA, Business Impact NW, or vendors?</p>
+          </article>
+        </div>
+
+        <div class="handoff" style="margin-top: 12px">
+          <div class="copy-row">
+            <h3>Copyable prepared handoff question</h3>
+            <button class="copy-button" type="button" data-copy-target="handoff-question">Copy text</button>
+          </div>
+          <p id="handoff-question" class="copy-text">I have a taco truck. I want to serve at [specific address or event name] on [dates/hours]. The location is [public curb / private lot / park / event footprint]. I use [fuel/cooking method], my truck is [type — occupied truck, trailer, cart], and I have [King County health status, commissary agreement, restroom plan, L&amp;I status if applicable, owner or organizer permission]. Two questions: (1) For this location, should I start with SDOT Street Use, check SDCI private-property conditions, or contact Parks / Special Events / another office? (2) Separately, what health, fire, state, or business-license steps should I confirm before applying?</p>
+        </div>
+
+        <div class="handoff" style="margin-top: 12px">
+          <h3>How corrections work</h3>
+          <div class="flow">
+            <div>1. Send corrections to <a href="mailto:daniel@hypandra.com">daniel@hypandra.com</a> — quote the sentence and suggest replacement wording.</div>
+            <div>2. All updates stay labeled DRAFT until the relevant agency reviews them.</div>
+            <div>3. Each claim will be marked "verified by [agency/person/date]" or "not yet verified."</div>
+          </div>
+        </div>
+
+        <div class="eval" aria-labelledby="eval-phase5">
+          <h3 id="eval-phase5">Reviewer check</h3>
+          <div class="rubric" role="table" aria-label="Part5 evaluation">
+            <div class="head">Question</div><div class="head">Yes</div><div class="head">Partly</div><div class="head">No</div><div class="head">Note</div>
+            <div>What would burden staff if an applicant arrived with this?</div><label><input type="radio" name="p5a"> Clear</label><label><input type="radio" name="p5a"> Partly</label><label><input type="radio" name="p5a"> Missing</label><div>Name the avoidable back-and-forth.</div>
+            <div>What would mislead an applicant?</div><label><input type="radio" name="p5b"> Clear</label><label><input type="radio" name="p5b"> Partly</label><label><input type="radio" name="p5b"> Missing</label><div>Name the sentence or omission.</div>
+            <div>Who else would need to be in the room to correct this?</div><label><input type="radio" name="p5c"> Named</label><label><input type="radio" name="p5c"> Partly</label><label><input type="radio" name="p5c"> Missing</label><div>Name the ally, reviewer, or blocker.</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="sources-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Four-layer source system</span><span>Last verified in research packet: 2026-05-02</span></div>
+          <h2 id="sources-title">Provenance the planner can inspect.</h2>
+        </div>
+
+        <div class="sources">
+          <article class="source-card">
+            <span class="source-tag">Layer 1</span>
+            <h3>Official routing</h3>
+            <p>Seattle OED, SDOT, SDCI, King County mobile food guide, Seattle Fire, Seattle Special Events, City Finance, WA L&amp;I.</p>
+            <p><a href="https://www.seattle.gov/economic-development/start-a-business/food-business-handbook/mobile-food-vending">Seattle OED Mobile Food Vending</a></p>
+            <p><a href="https://www.seattle.gov/transportation/permits-and-services/permits/vending-permits">SDOT Vending Permits</a></p>
+            <p><a href="https://www.seattle.gov/sdci/permits/common-projects/street-food-carts-or-trucks">SDCI Street Food Carts or Trucks</a></p>
+          </article>
+
+          <article class="source-card">
+            <span class="source-tag">Layer 2</span>
+            <h3>Community and industry</h3>
+            <p>WSFTA guidance, Business Impact NW + Public Health March 2026 workshop, SeattleFoodTruck.com "hassle-free permitting," named commissary pricing, and Reddit operator voices.</p>
+            <p><a href="https://wafoodtrucks.org">WSFTA</a> / <a href="https://businessimpactnw.org">Business Impact NW</a> / <a href="https://seattlefoodtruck.com/vendors">SeattleFoodTruck.com</a></p>
+          </article>
+
+          <article class="source-card">
+            <span class="source-tag">Layer 3</span>
+            <h3>News and policy</h3>
+            <p>Axios fee waiver, KUOW hot dog permit story, Eater event friction, The Stranger counterpoint, FOX 13 enforcement posture, and FIFA 2026 event pressure.</p>
+            <p><a href="https://www.kuow.org/">KUOW</a> / Axios / Eater / The Stranger / FOX 13 / KIRO 7.</p>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 16px">Contact directory</h3>
+        <p class="small">Contact details were gathered from public sources in May 2026 and have not been confirmed with the agencies listed. Phone numbers and emails may change.</p>
+        <div class="contact-grid" style="margin-top: 8px">
+          <div class="contact"><strong>SDOT Street Use</strong>(206) 684-5253<br>SDOTPermits@seattle.gov</div>
+          <div class="contact"><strong>SDCI planner questions</strong>(206) 684-8600<br>online form</div>
+          <div class="contact"><strong>Public Health plan review</strong>(206) 263-7833<br>ehfoodandfacilitiesplan@kingcounty.gov</div>
+          <div class="contact"><strong>Seattle Fire Permit Unit</strong>(206) 386-1450<br>permits@seattle.gov</div>
+          <div class="contact"><strong>Special Events</strong>(206) 684-8017</div>
+          <div class="contact"><strong>City Finance business license</strong>(206) 684-8484<br>tax@seattle.gov</div>
+          <div class="contact"><strong>WA L&amp;I food trucks/trailers</strong>1-800-705-1411 opt 3<br>FAS1@Lni.wa.gov</div>
+          <div class="contact"><strong>Parks Concessions</strong>sprconcessions@seattle.gov</div>
+        </div>
+      </section>
+
+
+      <section class="provenance" aria-labelledby="prov-title">
+        <div class="phase-head">
+          <div class="phase-kicker"><span>Provenance</span><span>What has and has not been verified</span></div>
+          <h2 id="prov-title">What this page claims and does not claim.</h2>
+        </div>
+        <div class="grid-3">
+          <div>
+            <h3>Attribution</h3>
+            <p>Built by Daniel Griffin / Hypandra with Codex as a static demo artifact.</p>
+          </div>
+          <div>
+            <h3>Model and source evidence</h3>
+            <p>Default AI examples were captured via OpenRouter on 2026-05-02. Source layers come from deep research across routing, community voices, industry context, and recent news.</p>
+          </div>
+          <div>
+            <h3>What has not been verified</h3>
+            <p>No official agency has reviewed this page. No applicant has tested the routing questions. No source URL was verified by staff. This page does not verify eligibility, approval, current fees, queue timing, final jurisdiction, or the complete permit sequence for any applicant.</p>
+            <p>Contact information, commissary pricing, and 2026 context claims (fee waiver expiry, enforcement posture, FIFA impact) were gathered from public sources in May 2026 and have not been confirmed with the agencies listed. Corrections: <a href="mailto:daniel@hypandra.com">daniel@hypandra.com</a>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="appendix" aria-labelledby="appendix-outputs">
+        <details>
+          <summary><h2 id="appendix-outputs" style="display:inline">Appendix: Default AI capture notes</h2></summary>
+          <p>Prompt used for all models: <q>I want to run a taco truck in Seattle near breweries and sometimes at neighborhood events. What do I need before I contact the city?</q></p>
+          <p>No system message. Plain user prompt. Captured through OpenRouter on 2026-05-02.</p>
+          <h3>GPT-4.1 (openai/gpt-4.1)</h3>
+          <p>Full output captured—800 tokens. Business plan template, licensing checklist, commissary mention. Links to seattle.gov vending permits page. Treats it as a linear checklist. Does not ask clarifying questions about location type. Does not distinguish SDOT vs SDCI. Says "Not all street parking is eligible for vending" but doesn't explain why or route to the right office. Tips to "arrange agreements with owners" but doesn't mention SDCI's private-property conditions.</p>
+          <p>Routing gap: Links to a seattle.gov page but still collapses the routing. Having a URL doesn't mean having the routing logic.</p>
+          <h3>Claude Opus 4 (anthropic/claude-opus-4)</h3>
+          <p>Full output captured—concise, organized. Mentions commissary, food worker card, insurance, vehicle specs, location planning. Ends with: <q>Having these items ready will streamline your permit applications with King County Health Department and Seattle's Department of Finance and Administrative Services.</q></p>
+          <p>Routing gap: Routes the final permits to "Department of Finance and Administrative Services"—this is not the correct agency for mobile food vending location permits. SDOT handles public right-of-way; SDCI handles private property. The model invented a routing that sounds plausible but is wrong.</p>
+          <h3>Gemini 2.5 Pro (google/gemini-2.5-pro)</h3>
+          <p>Output truncated due to streaming—began with business plan advice, did not reach permit routing before cutoff.</p>
+          <h3>Failure pattern across all models tested</h3>
+          <ol>
+            <li>No model asks a clarifying question about location type</li>
+            <li>No model distinguishes SDOT (right-of-way) from SDCI (private property)</li>
+            <li>All treat permits as a checklist rather than a decision tree</li>
+            <li>All imply a sequence that doesn't account for the site-type gating variable</li>
+            <li>Claude Opus 4 actively misroutes to the wrong agency</li>
+          </ol>
+        </details>
+      </section>
+
+      <footer>
+        Built by Daniel Griffin / Hypandra. Static, non-authoritative demo artifact; no city endorsement implied.
+      </footer>
+    </main>
+
+    <script>
+      for (const button of document.querySelectorAll("[data-copy-target]")) {
+        button.addEventListener("click", async () => {
+          const target = document.getElementById(button.dataset.copyTarget);
+          if (!target) return;
+          const text = target.textContent.trim();
+          try {
+            await navigator.clipboard.writeText(text);
+            button.textContent = "Copied";
+            window.setTimeout(() => { button.textContent = "Copy text"; }, 1400);
+          } catch {
+            const range = document.createRange();
+            range.selectNodeContents(target);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            button.textContent = "Selected";
+            window.setTimeout(() => { button.textContent = "Copy text"; }, 1400);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
