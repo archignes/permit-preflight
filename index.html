@@ -422,6 +422,43 @@
 
       input { accent-color: var(--green); }
 
+      .model-card details {
+        margin-top: 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--paper);
+      }
+
+      .model-card details summary {
+        cursor: pointer;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--blue);
+      }
+
+      .model-card details[open] summary {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .model-card details .raw-output {
+        padding: 12px;
+        font-size: 0.84rem;
+        line-height: 1.5;
+        max-height: 400px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+      }
+
+      .model-card details .raw-output strong {
+        display: block;
+        margin-top: 8px;
+      }
+
+      .model-card details .raw-output ol {
+        padding-left: 20px;
+      }
+
       .failure-table {
         width: 100%;
         border-collapse: collapse;
@@ -612,29 +649,119 @@
         <div class="phase-head">
           <div class="phase-kicker"><span>Part 2 / What default AI said</span><span>Real outputs, not invented examples</span></div>
           <h2 id="phase2-title">The models answered before routing.</h2>
-          <p class="intro">These are real model outputs, not invented examples. Plain user prompt, no system message, captured through OpenRouter on 2026-05-02. <a href="#appendix-outputs">Full capture notes in appendix.</a></p>
+          <p class="intro">These are real model outputs, not invented examples. Plain user prompt, no system message, captured through OpenRouter on 2026-05-02. Full text is expandable inline. <a href="#appendix-outputs">Capture methodology in appendix.</a></p>
         </div>
 
         <div class="models">
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
-            <h3>GPT-4.1 <span class="small">(openai/gpt-4.1)</span></h3>
-            <p>Produced an 800-token business plan template with a licensing checklist, commissary mention, and links to a seattle.gov vending permits page.</p>
+            <h3>GPT-4o <span class="small">(openai/gpt-4o)</span></h3>
+            <p>A 12-item business plan checklist. Mentions SDOT by name but never asks which location type — so the routing collapses into a generic to-do list.</p>
             <p class="failure">Routing gap: treats permits as a linear checklist, does not ask about location type, and does not distinguish SDOT from SDCI.</p>
+            <details>
+              <summary>Read the full model output</summary>
+              <div class="raw-output">Starting a taco truck in Seattle is an exciting venture! Before you contact the city, it's important to have several key components in place to ensure a smooth process. Here's a checklist to guide you:
+
+<strong>1. Business Plan</strong>
+Outline your business model, target market, and operational plan. Include financial projections and a marketing strategy.
+
+<strong>2. Food Truck</strong>
+Purchase or lease a food truck that meets your needs. Ensure the truck is equipped with necessary kitchen equipment and adheres to health and safety standards.
+
+<strong>3. Licensing and Permits</strong>
+• Business License: Obtain a City of Seattle business license tax certificate.
+• Food Truck Permit: Acquire a Mobile Food Vending Permit from the Seattle/King County Public Health Department.
+• Mobile Vending Permit: If operating on public property, you may need a Street Use Permit from the Seattle Department of Transportation (SDOT).
+• Health Permits: Ensure compliance with all food safety regulations and obtain necessary health permits.
+• Fire Department Inspection: Your food truck may need to be inspected by the local fire department depending on the cooking equipment you have onboard.
+
+<strong>4. Insurance</strong>
+Secure business insurance, including general liability and commercial auto insurance. Consider additional coverage like worker's compensation if you have employees.
+
+<strong>5. Location Strategy</strong>
+Research potential locations, focusing on breweries and event spaces. Secure contracts or agreements with breweries or event organizers, if needed. Understand zoning laws and restrictions in your targeted areas.
+
+<strong>6. Vehicle Licensing</strong>
+Ensure your truck is registered and adheres to all motor vehicle laws. Check emissions and safety standards.
+
+<strong>7. Commissary Kitchen</strong>
+Identify and secure a commissary kitchen for food preparation, storage, and cleaning if required by local health regulations.
+
+<strong>8. Food Safety Training</strong>
+Complete food safety courses and obtain certification (e.g., food handler's permit) for you and any employees.
+
+<strong>9. Menu Preparation</strong>
+Develop a menu, prioritize local and fresh ingredients where possible. Determine pricing based on cost analysis.
+
+<strong>10. Branding and Marketing</strong>
+Create a brand identity, including a logo and truck design. Establish an online presence through a website and social media platforms.
+
+<strong>11. Financing</strong>
+Ensure you have the funds to cover startup costs, including truck acquisition, permitting fees, equipment, and initial inventory.
+
+<strong>12. Staffing</strong>
+If you plan to hire employees, consider recruitment strategies and training plans.
+
+Once you have these elements in place, you'll be better prepared to work with city officials and navigate the permitting process. Good luck with your taco truck business in Seattle!</div>
+            </details>
+          </article>
+
+          <article class="model-card">
+            <span class="tag bad">Default AI output</span>
+            <h3>Claude Sonnet 4 <span class="small">(anthropic/claude-sonnet-4)</span></h3>
+            <p>Concise and organized — five categories, real items. Ends with: <q>Having these ready will streamline your conversations with Seattle's Mobile Food Vendor program.</q> Sounds authoritative, but routes to a program name that doesn't match how the city actually works.</p>
+            <p class="failure">Routing gap: says "Mobile Food Vendor program" as if it's one office. In reality, SDOT handles public right-of-way, SDCI handles private property, and the sequence depends on which one you need.</p>
+            <details>
+              <summary>Read the full model output</summary>
+              <div class="raw-output">Here's what you should prepare before contacting Seattle for your taco truck:
+
+<strong>Business Foundation</strong>
+• Business plan with financial projections and concept details
+• Business registration (LLC, corporation, etc.)
+• Federal EIN (Employer Identification Number)
+• Washington State business license
+• Food handler's permits for all staff
+
+<strong>Food Safety &amp; Health</strong>
+• Food service manager certification (at least one person)
+• Commissary kitchen arrangement (required for food prep and truck servicing)
+• Menu with detailed ingredient lists (for allergen compliance)
+
+<strong>Vehicle &amp; Equipment</strong>
+• Commercial vehicle that meets mobile food vendor specifications
+• Fire suppression system installation plans
+• Propane system certification (if applicable)
+• Generator/electrical system details
+
+<strong>Insurance &amp; Financial</strong>
+• Commercial general liability insurance
+• Commercial auto insurance
+• Workers compensation (if you'll have employees)
+• Proof of financial responsibility
+
+<strong>Location Planning</strong>
+• Maps of intended operating areas
+• Letters of interest from breweries you want to partner with
+• Understanding of zoning restrictions in target neighborhoods
+
+Having these ready will streamline your conversations with Seattle's Mobile Food Vendor program and show you're serious about compliance. The city will likely require most of these for your permits anyway.
+
+Would you like me to elaborate on any of these requirements?</div>
+            </details>
           </article>
 
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
             <h3>Claude Opus 4 <span class="small">(anthropic/claude-opus-4)</span></h3>
-            <p>Concise and organized. Ends with: <q>Having these items ready will streamline your permit applications with King County Health Department and Seattle's Department of Finance and Administrative Services.</q></p>
-            <p class="failure">Routing gap: routes final permits to "Department of Finance and Administrative Services"—not the correct agency for mobile food vending location permits.</p>
+            <p>More concise than Sonnet but actively misroutes. Ends with: <q>Having these items ready will streamline your permit applications with King County Health Department and Seattle's Department of Finance and Administrative Services.</q></p>
+            <p class="failure">Routing gap: routes final permits to "Department of Finance and Administrative Services" — not the correct agency for mobile food vending location permits. The model invented a plausible-sounding routing that is wrong.</p>
           </article>
 
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
             <h3>Gemini 2.5 Pro <span class="small">(google/gemini-2.5-pro)</span></h3>
-            <p>Output truncated due to streaming. Began with business plan advice before reaching permit routing.</p>
-            <p class="failure">Routing gap: already in startup-coaching mode before resolving the routing problem.</p>
+            <p>Output truncated due to streaming. Already in startup-coaching mode (business plan, SWOT analysis, brand identity) before reaching permit routing.</p>
+            <p class="failure">Routing gap: treats the question as a startup coaching opportunity rather than a permit routing question.</p>
           </article>
         </div>
 
@@ -1015,17 +1142,10 @@
 
       <section class="appendix" aria-labelledby="appendix-outputs">
         <details>
-          <summary><h2 id="appendix-outputs" style="display:inline">Appendix: Default AI capture notes</h2></summary>
+          <summary><h2 id="appendix-outputs" style="display:inline">Appendix: Capture methodology</h2></summary>
           <p>Prompt used for all models: <q>I want to run a taco truck in Seattle near breweries and sometimes at neighborhood events. What do I need before I contact the city?</q></p>
           <p>No system message. Plain user prompt. Captured through OpenRouter on 2026-05-02.</p>
-          <h3>GPT-4.1 (openai/gpt-4.1)</h3>
-          <p>Full output captured—800 tokens. Business plan template, licensing checklist, commissary mention. Links to seattle.gov vending permits page. Treats it as a linear checklist. Does not ask clarifying questions about location type. Does not distinguish SDOT vs SDCI. Says "Not all street parking is eligible for vending" but doesn't explain why or route to the right office. Tips to "arrange agreements with owners" but doesn't mention SDCI's private-property conditions.</p>
-          <p>Routing gap: Links to a seattle.gov page but still collapses the routing. Having a URL doesn't mean having the routing logic.</p>
-          <h3>Claude Opus 4 (anthropic/claude-opus-4)</h3>
-          <p>Full output captured—concise, organized. Mentions commissary, food worker card, insurance, vehicle specs, location planning. Ends with: <q>Having these items ready will streamline your permit applications with King County Health Department and Seattle's Department of Finance and Administrative Services.</q></p>
-          <p>Routing gap: Routes the final permits to "Department of Finance and Administrative Services"—this is not the correct agency for mobile food vending location permits. SDOT handles public right-of-way; SDCI handles private property. The model invented a routing that sounds plausible but is wrong.</p>
-          <h3>Gemini 2.5 Pro (google/gemini-2.5-pro)</h3>
-          <p>Output truncated due to streaming—began with business plan advice, did not reach permit routing before cutoff.</p>
+          <p>Four models tested across two generations: GPT-4o and Claude Sonnet 4 (full raw outputs shown inline above), plus Claude Opus 4 and Gemini 2.5 Pro (summaries only — Opus raw output was not preserved; Gemini truncated during streaming).</p>
           <h3>Failure pattern across all models tested</h3>
           <ol>
             <li>No model asks a clarifying question about location type</li>
