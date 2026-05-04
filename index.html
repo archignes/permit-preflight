@@ -232,7 +232,8 @@
       }
 
       .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .grid-3, .models, .findings, .sources, .exit-grid, .principles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-3, .findings, .sources, .exit-grid, .principles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .models { grid-template-columns: 1fr; }
       .grid-4, .contact-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .routing { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -251,8 +252,44 @@
 
       .model-card {
         border-width: 2px;
-        border-color: var(--red);
+        border-color: var(--line);
+        background: var(--panel);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto 1fr;
+        gap: 0 16px;
+      }
+
+      .model-card .tag { grid-column: 1 / -1; }
+      .model-card h3 { grid-column: 1 / -1; }
+
+      .model-card .model-summary {
+        grid-column: 1;
+      }
+
+      .model-card .model-output-col {
+        grid-column: 2;
+        grid-row: 3 / -1;
+      }
+
+      .model-card .routing-gap {
+        grid-column: 1 / -1;
+        margin-top: 4px;
+        padding: 10px 12px;
+        border-left: 4px solid var(--red);
         background: var(--red-bg);
+        border-radius: 0 6px 6px 0;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--red);
+      }
+
+      .model-card .routing-gap strong {
+        display: block;
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        margin-bottom: 2px;
       }
 
       .question-card {
@@ -422,41 +459,58 @@
 
       input { accent-color: var(--green); }
 
-      .model-card details {
-        margin-top: 8px;
+      .model-output-col {
         border: 1px solid var(--line);
         border-radius: 6px;
         background: var(--paper);
+        overflow: hidden;
       }
 
-      .model-card details summary {
+      .model-output-col summary {
         cursor: pointer;
-        padding: 8px 12px;
-        font-size: 0.82rem;
+        padding: 10px 14px;
+        font-size: 0.84rem;
         font-weight: 700;
         color: var(--blue);
+        list-style: none;
       }
 
-      .model-card details[open] summary {
+      .model-output-col summary::before {
+        content: "▶ ";
+        font-size: 0.7em;
+      }
+
+      .model-output-col[open] summary::before {
+        content: "▼ ";
+      }
+
+      .model-output-col summary::-webkit-details-marker { display: none; }
+
+      .model-output-col[open] summary {
         border-bottom: 1px solid var(--line);
+        background: var(--blue-bg);
       }
 
-      .model-card details .raw-output {
-        padding: 12px;
+      .model-output-col .raw-output {
+        padding: 14px;
         font-size: 0.84rem;
-        line-height: 1.5;
-        max-height: 400px;
+        line-height: 1.55;
+        max-height: 420px;
         overflow-y: auto;
+        font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", monospace;
         white-space: pre-wrap;
+        color: var(--ink);
       }
 
-      .model-card details .raw-output strong {
+      .model-output-col .raw-output strong {
         display: block;
-        margin-top: 8px;
+        margin-top: 10px;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        color: var(--charcoal);
       }
 
-      .model-card details .raw-output ol {
-        padding-left: 20px;
+      .model-output-col .raw-output strong:first-child {
+        margin-top: 0;
       }
 
       .failure-table {
@@ -570,6 +624,13 @@
         .rubric { grid-template-columns: 1fr; }
         .rubric .head:not(:first-child) { display: none; }
         .failure-table { display: block; overflow-x: auto; }
+        .model-card {
+          grid-template-columns: 1fr;
+        }
+        .model-card .model-output-col {
+          grid-column: 1;
+          grid-row: auto;
+        }
       }
     </style>
   </head>
@@ -656,9 +717,10 @@
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
             <h3>GPT-4o <span class="small">(openai/gpt-4o)</span></h3>
-            <p>A 12-item business plan checklist. Mentions SDOT by name but never asks which location type — so the routing collapses into a generic to-do list.</p>
-            <p class="failure">Routing gap: treats permits as a linear checklist, does not ask about location type, and does not distinguish SDOT from SDCI.</p>
-            <details>
+            <div class="model-summary">
+              <p>A 12-item business plan checklist. Mentions SDOT by name but never asks which location type — so the routing collapses into a generic to-do list.</p>
+            </div>
+            <details class="model-output-col">
               <summary>Read the full model output</summary>
               <div class="raw-output">Starting a taco truck in Seattle is an exciting venture! Before you contact the city, it's important to have several key components in place to ensure a smooth process. Here's a checklist to guide you:
 
@@ -704,14 +766,16 @@ If you plan to hire employees, consider recruitment strategies and training plan
 
 Once you have these elements in place, you'll be better prepared to work with city officials and navigate the permitting process. Good luck with your taco truck business in Seattle!</div>
             </details>
+            <div class="routing-gap"><strong>Routing gap</strong>Treats permits as a linear checklist, does not ask about location type, and does not distinguish SDOT from SDCI.</div>
           </article>
 
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
             <h3>Claude Sonnet 4 <span class="small">(anthropic/claude-sonnet-4)</span></h3>
-            <p>Concise and organized — five categories, real items. Ends with: <q>Having these ready will streamline your conversations with Seattle's Mobile Food Vendor program.</q> Sounds authoritative, but routes to a program name that doesn't match how the city actually works.</p>
-            <p class="failure">Routing gap: says "Mobile Food Vendor program" as if it's one office. In reality, SDOT handles public right-of-way, SDCI handles private property, and the sequence depends on which one you need.</p>
-            <details>
+            <div class="model-summary">
+              <p>Concise and organized — five categories, real items. Sounds authoritative, but routes to a program name that doesn't match how the city actually works.</p>
+            </div>
+            <details class="model-output-col">
               <summary>Read the full model output</summary>
               <div class="raw-output">Here's what you should prepare before contacting Seattle for your taco truck:
 
@@ -748,20 +812,106 @@ Having these ready will streamline your conversations with Seattle's Mobile Food
 
 Would you like me to elaborate on any of these requirements?</div>
             </details>
+            <div class="routing-gap"><strong>Routing gap</strong>Says "Mobile Food Vendor program" as if it's one office. SDOT handles public right-of-way, SDCI handles private property — the sequence depends on which one you need.</div>
           </article>
 
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
             <h3>Claude Opus 4 <span class="small">(anthropic/claude-opus-4)</span></h3>
-            <p>More concise than Sonnet but actively misroutes. Ends with: <q>Having these items ready will streamline your permit applications with King County Health Department and Seattle's Department of Finance and Administrative Services.</q></p>
-            <p class="failure">Routing gap: routes final permits to "Department of Finance and Administrative Services" — not the correct agency for mobile food vending location permits. The model invented a plausible-sounding routing that is wrong.</p>
+            <div class="model-summary">
+              <p>Shortest and most polished. Ends with: <q>the city will then guide you through their specific requirements for mobile food vendor permits, health permits, and fire safety certificates.</q> Defers routing to "the city" — but doesn't say which office.</p>
+            </div>
+            <details class="model-output-col">
+              <summary>Read the full model output</summary>
+              <div class="raw-output">Before contacting Seattle authorities, here's what you should prepare:
+
+<strong>Business Foundation</strong>
+• Business plan with startup costs, menu, and pricing strategy
+• Business entity (LLC or corporation) registered with Washington State
+• Business license from Washington State Department of Revenue
+• Federal EIN (Employer Identification Number)
+• Insurance quotes for general liability, auto, and potentially product liability
+
+<strong>Food Service Specifics</strong>
+• Menu planning with recipes standardized and costed out
+• Food sourcing plan identifying suppliers and commissary kitchen
+• Commissary kitchen — Seattle requires a licensed commercial kitchen for prep/storage
+• Equipment list for your truck with specifications
+
+<strong>Vehicle Details</strong>
+• Truck specifications or purchase/lease plans
+• Vehicle registration and commercial plates (if you already have the truck)
+• Parking/storage plan for when not in operation
+
+<strong>Financial Preparation</strong>
+• Startup capital evidence (bank statements, investor letters)
+• Operating budget for first 6–12 months
+• Washington State sales tax registration
+
+<strong>Location Research</strong>
+• Target locations list with specific breweries and events
+• Competition analysis of other food trucks in those areas
+
+Having these items ready will help the city see you're serious and prepared, making the permit process smoother. The city will then guide you through their specific requirements for mobile food vendor permits, health permits, and fire safety certificates.</div>
+            </details>
+            <div class="routing-gap"><strong>Routing gap</strong>Defers to "the city" without distinguishing SDOT, SDCI, King County Health, or Seattle Fire. Each has its own intake process. "The city will guide you" is exactly the confidence-without-routing this page is designed to surface.</div>
           </article>
 
           <article class="model-card">
             <span class="tag bad">Default AI output</span>
-            <h3>Gemini 2.5 Pro <span class="small">(google/gemini-2.5-pro)</span></h3>
-            <p>Output truncated due to streaming. Already in startup-coaching mode (business plan, SWOT analysis, brand identity) before reaching permit routing.</p>
-            <p class="failure">Routing gap: treats the question as a startup coaching opportunity rather than a permit routing question.</p>
+            <h3>GPT-4.1 <span class="small">(openai/gpt-4.1)</span></h3>
+            <div class="model-summary">
+              <p>The newest model tested. Mentions SDOT by name and distinguishes private property from public streets — a step up from GPT-4o. But still treats it as a linear checklist and doesn't ask about location type before giving advice.</p>
+            </div>
+            <details class="model-output-col">
+              <summary>Read the full model output</summary>
+              <div class="raw-output">Great idea! Seattle is very food truck-friendly, especially near breweries. Before you reach out to the city, here's what you'll want to sort out (and have ready to discuss or submit):
+
+<strong>1. Your Business Plan Details</strong>
+• Type of tacos/menu — Even drafts/ideas help!
+• Hours of operation
+• Target customer (brewery goers, event attendees)
+
+<strong>2. Truck/Trailer Prep</strong>
+• Own or lease your truck/trailer? Get info/specs (size, equipment, etc.)
+• Photos and layout/schematics (these get submitted for permits)
+• Commissary kitchen agreement: You'll need a commissary or licensed commercial kitchen for prep/cleaning/storage, plus a contract or letter of agreement.
+
+<strong>3. Seattle/King County Health Requirements</strong>
+• Business License(s): Register your business with the State of Washington and City of Seattle.
+• Seattle-King County Public Health: Apply for a Mobile Food Service Permit.
+• Menu and processes — Be ready to describe how you'll safely store/cook food.
+• Truck inspection: Your vehicle must be inspected.
+• Food Worker Card: Everyone handling food needs a Washington State Food Worker Card.
+
+<strong>4. Insurance</strong>
+• General liability (usually $1–$2m)
+• Commercial auto insurance (if you're driving it)
+• Proof is needed to operate.
+
+<strong>5. Location Permissions</strong>
+• For breweries: Each location will want to see your permits and insurance.
+• Private Property Permission: Written approval from property owners.
+• Neighborhood events: Know who organizes them and whether they coordinate permits, or if you need to, separately.
+• Seattle parks/events: May have additional permit requirements (special events permit).
+
+<strong>6. Financial Prep</strong>
+• Be ready for permit/application fees (these can add up — several $1k, depending on city/county)
+• Startup capital for equipment, food, gas, staff, etc.
+
+<strong>AFTER the Above, Contact:</strong>
+• Seattle Department of Transportation (SDOT) — For a Public Place Permit if you ever want to park on public streets (but most taco trucks focus on private property, like brewery lots).
+• King County Public Health for food prep licensing/inspections.
+• Event organizers (for pop-ups/fairs).
+
+PRO TIPS:
+• Join Seattle Food Truck Facebook groups or WA State Food Truck Association for networking and advice.
+• Consider using Commissary Kitchens like Food Truck Central or similar in Seattle.
+• Keep a binder: Copies of all permits, business/license info, insurance, commissary agreements.
+
+Need help with specific forms or starting your business registration? I can walk you through those steps too!</div>
+            </details>
+            <div class="routing-gap"><strong>Routing gap</strong>Links to a seattle.gov page but still collapses the routing. Having a URL doesn't mean having the routing logic.</div>
           </article>
         </div>
 
@@ -1145,7 +1295,7 @@ Would you like me to elaborate on any of these requirements?</div>
           <summary><h2 id="appendix-outputs" style="display:inline">Appendix: Capture methodology</h2></summary>
           <p>Prompt used for all models: <q>I want to run a taco truck in Seattle near breweries and sometimes at neighborhood events. What do I need before I contact the city?</q></p>
           <p>No system message. Plain user prompt. Captured through OpenRouter on 2026-05-02.</p>
-          <p>Four models tested across two generations: GPT-4o and Claude Sonnet 4 (full raw outputs shown inline above), plus Claude Opus 4 and Gemini 2.5 Pro (summaries only — Opus raw output was not preserved; Gemini truncated during streaming).</p>
+          <p>Four models tested across two generations: GPT-4o, Claude Sonnet 4, Claude Opus 4, and GPT-4.1. Full raw outputs are shown inline in Part 2 above. Gemini 2.5 Pro was also tested but output truncated during streaming — same failure pattern (startup coaching before routing).</p>
           <h3>Failure pattern across all models tested</h3>
           <ol>
             <li>No model asks a clarifying question about location type</li>
